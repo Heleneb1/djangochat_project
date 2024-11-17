@@ -1,0 +1,83 @@
+<!-- {% extends "base.html" %}
+
+{% block content %}
+<h2>{{ room }} - HeleneB's Chat</h2>
+<div id="display"></div>
+
+<script>
+    // const protocol = window.location.protocol === 'https:' ? 'wss://' : 'ws://';
+    // const socket = new WebSocket(protocol + window.location.host + '/ws/chat/{{ room }}/');
+    const socket = new WebSocket('ws://' + window.location.host + '/ws/chat/{{ room }}/');
+
+
+    // const socket = new WebSocket('ws://' + window.location.host + '/ws/chat/{{ room }}/');
+
+    socket.onopen = function () {
+        console.log('WebSocket ouvert');
+    };
+
+    socket.onmessage = function (e) {
+        const data = JSON.parse(e.data);
+        const message = data['message'];
+
+        let temp = '';
+
+        if (message.user === "{{ username }}") {
+            temp = `
+            <div class="message-container own-message-container">
+                <div class='message own-message'>
+                    <b class='message-user' style="color: ${message.user_color};">
+                        ${message.user}
+                    </b>
+                    <p class='message-content'>${message.value}</p>
+                    <span class='time-left'>${message.date}</span>
+                </div>
+            </div>`;
+        } else {
+            var userColor = message.user_color;
+            temp = `
+            <div class="message-container other-message-container">
+                <div class='message'>
+                    <b class='message-user' style="color: ${userColor};">
+                        ${message.user}
+                    </b>
+                    <p class='message-content'>${message.value}</p>
+                    <span class='time-left'>${message.date}</span>
+                </div>
+            </div>`;
+        }
+
+        $("#display").append(temp);
+        $('#display').scrollTop($('#display')[0].scrollHeight);
+    };
+
+    socket.onclose = function () {
+        console.log('WebSocket fermé');
+    };
+
+    // Envoie le message lorsque le formulaire est soumis
+    $(document).on('submit', '#post-form', function (e) {
+        e.preventDefault();
+
+        const message = $('#message').val();
+
+        socket.send(JSON.stringify({
+            'message': message,
+            'user': '{{ username }}',
+            'room': '{{ room }}',
+            'user_color': '{{ user_color }}'  // Remplace par la couleur de l'utilisateur si nécessaire
+        }));
+
+        $('#message').val(''); // Réinitialiser le champ message
+    });
+</script>
+
+<form id="post-form">
+    {% csrf_token %}
+    <input type="hidden" name="username" id="username" value="{{ username }}" />
+    <input type="hidden" name="room_id" id="room_id" value="{{ room_details.id }}" />
+    <input type="text" name="message" id="message" width="100px" />
+    <input type="submit" value="Send">
+</form>
+
+{% endblock %} -->

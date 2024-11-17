@@ -1,0 +1,97 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h2>{{ room }} - HeleneB's Chat</h2>
+<div id="display"></div>
+
+<script>
+    $(document).ready(function () {
+        setInterval(function () {
+            $.ajax({
+                type: 'GET',
+                url: "/getMessages/{{ room }}/",
+                success: function (response) {
+                    console.log(response);
+                    $("#display").empty();
+                    for (var key in response.messages) {
+                        var temp = "";
+
+                        if (response.messages[key].user === "{{ username }}") {
+                            temp = `
+    <div class="message-container own-message-container">
+        <div class='message own-message'>
+            <b class='message-user' style="color: ${response.messages[key].user_color};">
+                ${response.messages[key].user}
+            </b>
+            <p class='message-content'>${response.messages[key].value}</p>
+            <span class='time-left'>${response.messages[key].date}</span>
+        </div>
+    </div>`;
+                        } else {
+                            var userColor = response.messages[key].user_color;
+                            temp = `
+    <div class="message-container other-message-container">
+        <div class='message'>
+            <b class='message-user' style="color: ${userColor};">
+                ${response.messages[key].user}
+            </b>
+            <p class='message-content'>${response.messages[key].value}</p>
+            <span class='time-left'>${response.messages[key].date}</span>
+        </div>
+    </div>`;
+                        }
+
+
+
+
+                        // Ajoute seulement les nouveaux messages
+                        $("#display").append(temp);
+                        $('#display').scrollTop($('#display')[0].scrollHeight);
+                    }
+                }
+            });
+        }, 1000);
+    })
+</script>
+<!-- <div class="chat-container">
+    <div class="chat-box" id="chat-box">
+        {% for message in messages %}
+        <div class="message">
+            <p><strong>{{ message.username }}</strong> - {{ message.timestamp|date:"H:i" }}</p>
+            <p>{{ message.content }}</p>
+        </div>
+        {% endfor %}
+    </div>
+</div> -->
+
+
+<form id="post-form">
+    {% csrf_token %}
+    <input type="hidden" name="username" id="username" value="{{ username }}" />
+    <input type="hidden" name="room_id" id="room_id" value="{{ room_details.id }}" />
+    <input type="text" name="message" id="message" width="100px" />
+    <input type="submit" value="Send">
+</form>
+
+<script type="text/javascript">
+    $(document).on('submit', '#post-form', function (e) {
+        e.preventDefault();
+
+        $.ajax({
+            type: 'POST',
+            url: '/send',
+            data: {
+                username: $('#username').val(),
+                room_id: $('#room_id').val(),
+                message: $('#message').val(),
+                csrfmiddlewaretoken: $('input[name=csrfmiddlewaretoken]').val(),
+            },
+            success: function (data) {
+                // alert(data) si nécessaire
+            }
+        });
+
+        $('#message').val(''); // Réinitialiser le champ message
+    });
+</script>
+{% endblock %}

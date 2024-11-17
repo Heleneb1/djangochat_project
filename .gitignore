@@ -1,0 +1,44 @@
+# Ignorer l'environnement virtuel
+djangochat_env/
+
+# Fichiers de base Django
+*.log
+*.pot
+*.pyc
+*.pyo
+__pycache__/
+
+# Fichiers de base de Django migrations
+*.db
+*.sqlite3
+migrations/
+
+# Fichiers de configuration de l'IDE (PyCharm, VSCode, etc.)
+.vscode/
+.idea/
+
+# Fichiers de sauvegarde
+*~
+*.bak
+*.swp
+
+# Fichiers de configuration du système (macOS, Windows)
+.DS_Store
+Thumbs.db
+
+# Fichiers générés par Django collectstatic
+/static/
+
+# Fichiers générés par les outils de packaging
+*.egg
+*.egg-info/
+dist/
+build/
+
+# Eviter de suivre les fichiers de configuration personnels (par exemple pour l'utilisateur)
+*.env
+*.ini
+*.local
+
+# Ignorer le fichier de requirements.txt généré
+requirements.txt

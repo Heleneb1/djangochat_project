@@ -1,0 +1,31 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <!-- <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Chat en ligne HeleneB - Discutez en temps réel."> -->
+    <title>HeleneB's Chat</title>
+    <link rel="icon" href="{% static 'assets/favicon.ico' %}" type="image/x-icon" />
+    <link rel="stylesheet" type="text/css" href="{% static 'css/styles.css' %}">
+    <script src="https://code.jquery.com/jquery-3.1.1.min.js"
+        integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8=" crossorigin="anonymous"></script>
+</head>
+
+<body>
+    <div class="header">
+        <h2><a href="/" aria-label="Retour à la page d'accueil">HeleneB's Chat</a></h2>
+    </div>
+
+    {% block content %}
+    <!-- Le contenu spécifique à chaque page sera ici -->
+    {% endblock %}
+
+    <footer>
+        <p>&copy; 2024 HeleneB - Tous droits réservés</p>
+    </footer>
+</body>
+
+</html>
