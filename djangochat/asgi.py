@@ -7,11 +7,14 @@ from chat.routing import websocket_urlpatterns  # Importer le routing
 
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'djangochat.settings')
 
+
 application = ProtocolTypeRouter({
     "http": get_asgi_application(),
     "websocket": AuthMiddlewareStack(
         URLRouter(
-           websocket_urlpatterns  # Utilise les routes définies pour WebSocket
+            websocket_urlpatterns  # Utilise les routes WebSocket
         )
     ),
 })
+
+

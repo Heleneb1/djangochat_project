@@ -32,7 +32,8 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
-    
+
+    'channels',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -40,7 +41,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'chat',
-    # 'channels',
+    
 ]
 
 MIDDLEWARE = [
@@ -55,11 +56,11 @@ MIDDLEWARE = [
 
 ROOT_URLCONF = 'djangochat.urls'
 
-# CHANNEL_LAYERS = {
-#     "default": {
-#         "BACKEND": "channels.layers.InMemoryChannelLayer"
-#     }
-# }
+CHANNEL_LAYERS = {
+    "default": {
+        "BACKEND": "channels.layers.InMemoryChannelLayer"
+    }
+}
 
 #en production on utilisera le backend Redis pour les channels layers avec pip install channels_redis
 # CHANNEL_LAYERS = {
@@ -103,7 +104,7 @@ DATABASES = {
         'NAME': BASE_DIR / 'db.sqlite3',
     }
 }
-# ASGI_APPLICATION = 'djangochat.routing.application'  # your_project is your Django project name
+ASGI_APPLICATION = 'djangochat.routing.application'  # your_project is your Django project name
 
 # Password validation
 # https://docs.djangoproject.com/en/5.1/ref/settings/#auth-password-validators
@@ -140,10 +141,8 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/5.1/howto/static-files/
 
 STATIC_URL = 'static/'
-STATICFILES_DIRS = [
-   os.path.join(BASE_DIR, 'static')
-]
-
+STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static')]  # Si tu as un dossier "static" dans ton projet
+#STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')  # Pour collectstatic en production
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
 

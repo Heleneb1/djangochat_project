@@ -5,93 +5,78 @@
 <div id="display"></div>
 
 <script>
-    $(document).ready(function () {
-        setInterval(function () {
-            $.ajax({
-                type: 'GET',
-                url: "/getMessages/{{ room }}/",
-                success: function (response) {
-                    console.log(response);
-                    $("#display").empty();
-                    for (var key in response.messages) {
-                        var temp = "";
 
-                        if (response.messages[key].user === "{{ username }}") {
-                            temp = `
-    <div class="message-container own-message-container">
-        <div class='message own-message'>
-            <b class='message-user' style="color: ${response.messages[key].user_color};">
-                ${response.messages[key].user}
-            </b>
-            <p class='message-content'>${response.messages[key].value}</p>
-            <span class='time-left'>${response.messages[key].date}</span>
-        </div>
-    </div>`;
-                        } else {
-                            var userColor = response.messages[key].user_color;
-                            temp = `
-    <div class="message-container other-message-container">
-        <div class='message'>
-            <b class='message-user' style="color: ${userColor};">
-                ${response.messages[key].user}
-            </b>
-            <p class='message-content'>${response.messages[key].value}</p>
-            <span class='time-left'>${response.messages[key].date}</span>
-        </div>
-    </div>`;
-                        }
+    const protocol = window.location.protocol === 'https:' ? 'wss://' : 'ws://';
+    const socket = new WebSocket(protocol + window.location.host + '/ws/chat/{{ room }}/');
 
 
+    socket.onopen = function () {
+        console.log('WebSocket ouvert');
+    };
 
+    socket.onmessage = function (e) {
+        const data = JSON.parse(e.data);
+        const message = data['message'];
 
-                        // Ajoute seulement les nouveaux messages
-                        $("#display").append(temp);
-                        $('#display').scrollTop($('#display')[0].scrollHeight);
-                    }
-                }
-            });
-        }, 1000);
-    })
+        let temp = '';
+
+        if (message.user === "{{ username }}") {
+            temp = `
+            <div class="message-container own-message-container">
+                <div class='message own-message'>
+                    <b class='message-user' style="color: ${message.user_color};">
+                        ${message.user}
+                    </b>
+                    <p class='message-content'>${message.value}</p>
+                    <span class='time-left'>${message.date}</span>
+                </div>
+            </div>`;
+        } else {
+            var userColor = message.user_color;
+            temp = `
+            <div class="message-container other-message-container">
+                <div class='message'>
+                    <b class='message-user' style="color: ${userColor};">
+                        ${message.user}
+                    </b>
+                    <p class='message-content'>${message.value}</p>
+                    <span class='time-left'>${message.date}</span>
+                </div>
+            </div>`;
+        }
+
+        $("#display").append(temp);
+        $('#display').scrollTop($('#display')[0].scrollHeight);
+    };
+
+    socket.onclose = function () {
+        console.log('WebSocket fermé');
+    };
+
+    // Envoie le message lorsque le formulaire est soumis
+    $(document).on('submit', '#post-form', function (e) {
+        e.preventDefault();
+
+        const message = $('#message').val();
+
+        socket.send(JSON.stringify({
+            'message': message,
+            'user': '{{ username }}',
+            'room': '{{ room }}',
+            'user_color': '{{ user_color }}'  // Remplace par la couleur de l'utilisateur si nécessaire
+        }));
+
+        $('#message').val(''); // Réinitialiser le champ message
+    });
 </script>
-<!-- <div class="chat-container">
-    <div class="chat-box" id="chat-box">
-        {% for message in messages %}
-        <div class="message">
-            <p><strong>{{ message.username }}</strong> - {{ message.timestamp|date:"H:i" }}</p>
-            <p>{{ message.content }}</p>
-        </div>
-        {% endfor %}
-    </div>
-</div> -->
-
 
 <form id="post-form">
     {% csrf_token %}
     <input type="hidden" name="username" id="username" value="{{ username }}" />
     <input type="hidden" name="room_id" id="room_id" value="{{ room_details.id }}" />
-    <input type="text" name="message" id="message" width="100px" />
+    <!-- <input type="text" name="message" id="message" width="100px" /> -->
+    <textarea placeholder="Enter your text here, please" name="message" id="message" cols="30" rows="10"></textarea>
     <input type="submit" value="Send">
 </form>
 
-<script type="text/javascript">
-    $(document).on('submit', '#post-form', function (e) {
-        e.preventDefault();
-
-        $.ajax({
-            type: 'POST',
-            url: '/send',
-            data: {
-                username: $('#username').val(),
-                room_id: $('#room_id').val(),
-                message: $('#message').val(),
-                csrfmiddlewaretoken: $('input[name=csrfmiddlewaretoken]').val(),
-            },
-            success: function (data) {
-                // alert(data) si nécessaire
-            }
-        });
-
-        $('#message').val(''); // Réinitialiser le champ message
-    });
-</script>
 {% endblock %}
