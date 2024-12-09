@@ -9,4 +9,4 @@ urlpatterns = [
     path('checkview', views.checkview, name='checkview'),
     path('send', views.send, name='send'),
     path('getMessages/<str:room>/', views.getMessages, name='getMessages'),
-] + static(settings.STATIC_URL, document_root=settings.STATICFILES_DIRS[0]) 
+] + static(settings.STATIC_URL, document_root=settings.STATICFILES_DIRS[0]) # ajouter cette ligne pour charger les fichiers statiques sinon pas de css
