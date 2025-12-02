@@ -1,4 +1,4 @@
-![HeleneB's chat Banner](https://raw.githubusercontent.com/Heleneb1/djangochat/static/assets/banner.png)
+![HeleneB's chat Banner](https://raw.githubusercontent.com/Heleneb1/djangochat/docs/banner.png)
 
 # DJANGOCHAT
 

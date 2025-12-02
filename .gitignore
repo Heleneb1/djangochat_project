@@ -40,5 +40,4 @@ build/
 *.ini
 *.local
 
-# Ignorer le fichier de requirements.txt généré
-requirements.txt
+
