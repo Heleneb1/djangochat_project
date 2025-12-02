@@ -11,7 +11,10 @@ __pycache__/
 # Fichiers de base de Django migrations
 *.db
 *.sqlite3
-migrations/
+# Ignorer uniquement les fichiers compilés des migrations
+*/migrations/__pycache__/
+*/migrations/*.pyc
+
 
 # Fichiers de configuration de l'IDE (PyCharm, VSCode, etc.)
 .vscode/
