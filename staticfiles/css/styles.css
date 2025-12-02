@@ -1,0 +1,260 @@
+/* Réinitialisation */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  display: flex;
+  color: white;
+  height: 100vh;
+  font-family: "Poppins", sans-serif;
+  background: linear-gradient(270deg, #02172a, #136878, #02d6e8);
+  background-size: 600% 600%;
+  animation: gradientShift 15s ease infinite;
+  align-items: center;
+  text-align: center;
+  flex-direction: column;
+  justify-content: flex-start;
+}
+
+/* Animation du fond */
+@keyframes gradientShift {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+/* Header */
+.header {
+  margin-bottom: 2rem;
+  width: 100%;
+  background-color: #1a2a35;
+  color: #fff;
+  padding: 1rem 2rem;
+  border-bottom: 3px solid #02d6e8;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.header h2 {
+  font-size: 2rem;
+  font-weight: 600;
+}
+
+.header h2 a {
+  color: #02d6e8;
+  text-decoration: none;
+  transition: color 0.3s;
+}
+
+.header h2 a:hover {
+  color: #01b2c6;
+}
+
+.header img {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  margin-right: 1rem;
+}
+
+/* Zone d’affichage des messages */
+#display {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 10px;
+  height: 70vh;
+  overflow-y: auto;
+  background-color: #02172a;
+  border-radius: 10px;
+  animation: fadeIn 0.5s ease-in-out;
+  width: 31rem;
+}
+
+/* Conteneur des messages */
+.message-container {
+  display: flex;
+  margin-bottom: 10px;
+  width: 100%;
+}
+
+.own-message-container {
+  justify-content: flex-end;
+}
+.other-message-container {
+  justify-content: flex-start;
+}
+
+/* Style des bulles */
+.message {
+  max-width: 60%;
+  padding: 10px 15px;
+  border-radius: 10px;
+  background-color: #34495e;
+  color: white;
+  word-wrap: break-word;
+  box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.2);
+  animation: popIn 0.3s ease;
+}
+
+.own-message {
+  background: linear-gradient(135deg, #1a2a35, #136878);
+}
+
+.other-message-container .message {
+  background: linear-gradient(135deg, #34495e, #2c3e50);
+}
+
+.message-user {
+  font-weight: bold;
+  color: #02d6e8;
+}
+
+.time-left {
+  font-size: 0.8em;
+  color: #bdc3c7;
+  margin-top: 5px;
+  display: block;
+  text-align: right;
+}
+
+/* Animations */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes popIn {
+  0% {
+    transform: scale(0.8);
+    opacity: 0;
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+/* Formulaire */
+#post-form-home {
+  background-color: rgba(11, 92, 98, 0.7);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  padding-bottom: 2rem;
+  gap: 2rem;
+  padding: 2rem;
+  border-radius: 1rem;
+  margin-top: 2rem;
+}
+#post-form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  padding-bottom: 2rem;
+}
+
+legend::before {
+  content: "💬 ";
+}
+
+/* Inputs */
+#message {
+  width: 31rem;
+  padding: 10px;
+  margin: 10px 0;
+  border-radius: 5px;
+  border: 1px solid #2c3e50;
+  background-color: #1a2a35;
+  color: #fff;
+  transition: background-color 0.3s ease;
+}
+
+input[type="text"]:hover {
+  background-color: #136878;
+}
+
+input[type="text"]:focus {
+  outline: none;
+  border-color: #02d6e8;
+  box-shadow: 0 0 10px #02d6e8;
+}
+fieldset {
+  padding: 2rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2rem;
+}
+/* Bouton */
+input[type="submit"] {
+  width: 31rem;
+  padding: 10px 20px;
+  border: none;
+  background-color: #1a2a35;
+  color: white;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-size: 1.3rem;
+}
+
+input[type="submit"]:hover {
+  background-color: #02d6e8;
+  border: #2c3e50 1px solid;
+  color: #02172a;
+  box-shadow: 0 0 15px #02d6e8;
+  transform: scale(1.05);
+}
+
+input[type="submit"]:focus {
+  outline: 2px solid #02d6e8;
+}
+
+/* Responsivité */
+@media (max-width: 768px) {
+  .chat-container {
+    max-width: 800px;
+    width: 100%;
+    margin: 0 auto;
+  }
+  .chat-box {
+    height: 50%;
+  }
+}
+
+@media (max-width: 480px) {
+  body {
+    font-size: 14px;
+  }
+  #display {
+    width: 90%;
+  }
+  .chat-container {
+    height: 100vh;
+  }
+  #message {
+    font-size: 16px;
+  }
+}
+
+footer p {
+  margin-bottom: 1rem;
+}

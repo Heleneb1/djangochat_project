@@ -1,6 +1,6 @@
 # Ignorer l'environnement virtuel
 djangochat_env/
-
+env/
 # Fichiers de base Django
 *.log
 *.pot

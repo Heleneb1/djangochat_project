@@ -24,10 +24,8 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-g&*7d$=d&@uzhxten7*w3lq0+u-pkrpbx1qhqf9phn*+4c@f8f'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
-
-ALLOWED_HOSTS = []
-
+DEBUG = False  # en prod
+ALLOWED_HOSTS = ['*'] 
 
 # Application definition
 
@@ -58,8 +56,11 @@ ROOT_URLCONF = 'djangochat.urls'
 
 CHANNEL_LAYERS = {
     "default": {
-        "BACKEND": "channels.layers.InMemoryChannelLayer"
-    }
+        "BACKEND": "channels_redis.core.RedisChannelLayer",
+        "CONFIG": {
+            "hosts": [("redis://default:motdepasse@redis.onrender.com:6379")],
+        },
+    },
 }
 
 #en production on utilisera le backend Redis pour les channels layers avec pip install channels_redis
@@ -141,6 +142,8 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/5.1/howto/static-files/
 
 STATIC_URL = 'static/'
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles') # Pour collectstatic en production
+
 STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static')]  # Si tu as un dossier "static" dans ton projet
 #STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')  # Pour collectstatic en production
 # Default primary key field type
