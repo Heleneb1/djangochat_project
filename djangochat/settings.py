@@ -147,7 +147,11 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 STATIC_ROOT = BASE_DIR / "staticfiles"
-STATICFILES_DIRS = [BASE_DIR / "static"]
+
+# ⚠️ Garde STATICFILES_DIRS uniquement si tu as bien un dossier "static" à la racine du projet.
+# Si Render ne le trouve pas, commente cette ligne :
+# STATICFILES_DIRS = [BASE_DIR / "static"]
+
 STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
 
 
