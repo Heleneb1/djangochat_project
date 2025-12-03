@@ -30,12 +30,12 @@ SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY', 'fallback-secret-for-dev')
 
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False # en production sinon true pour le dev
+DEBUG = True # en production sinon true pour le dev
 ALLOWED_HOSTS = ['lesmysteresdelegypteantique.fr','chat.lesmysteresdelegypteantique.fr', 'djangochat-project.onrender.com', 'localhost', '127.0.0.1']
 
 CSRF_TRUSTED_ORIGINS = [
     'https://djangochat-project.onrender.com',
-    'https://lesmysteresdelegypteantique.fr',
+    'https://chat.lesmysteresdelegypteantique.fr',
     'http://127.0.0.1:8000',
     'http://localhost:8000',
 ]
