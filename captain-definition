@@ -1,0 +1,13 @@
+{
+  "schemaVersion": 2,
+  "dockerfilePath": "./Dockerfile",
+  "ports": {
+    "8000": "80"
+  },
+  "volumes": [
+    {
+      "containerPath": "/app/db.sqlite3",
+      "hostPath": "/captain/data/db.sqlite3"
+    }
+  ]
+}

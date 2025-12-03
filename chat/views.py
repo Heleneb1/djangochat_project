@@ -6,7 +6,8 @@ from django.http import HttpResponse, JsonResponse
 
 # Create your views here.
 def home(request):
-    return render(request, 'home.html')
+    rooms = Room.objects.all()
+    return render(request, 'home.html', {'rooms': rooms})
 
 def room(request, room):
     username = request.GET.get('username')# get the username

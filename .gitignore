@@ -30,7 +30,7 @@ __pycache__/
 Thumbs.db
 
 # Fichiers générés par Django collectstatic
-/static/
+/staticfiles/
 
 # Fichiers générés par les outils de packaging
 *.egg

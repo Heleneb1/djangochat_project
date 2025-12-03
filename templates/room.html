@@ -59,14 +59,18 @@
 
         const message = $('#message').val();
 
-        socket.send(JSON.stringify({
-            'message': message,
-            'user': '{{ username }}',
-            'room': '{{ room }}',
-            'user_color': '{{ user_color }}'  // Remplace par la couleur de l'utilisateur si nécessaire
-        }));
+        if (socket.readyState === WebSocket.OPEN) {
+            socket.send(JSON.stringify({
+                'message': message,
+                'user': '{{ username }}',
+                'room': '{{ room }}',
+                'user_color': '{{ user_color }}'
+            }));
+        } else {
+            console.error("WebSocket non ouvert, impossible d'envoyer le message");
+        }
 
-        $('#message').val(''); // Réinitialiser le champ message
+        $('#message').val('');
     });
 </script>
 

@@ -11,26 +11,39 @@ https://docs.djangoproject.com/en/5.1/ref/settings/
 """
 
 from pathlib import Path
+import pymysql
+pymysql.install_as_MySQLdb()
+
 import os
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 
+
+SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY', 'fallback-secret-for-dev')
+
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/5.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-g&*7d$=d&@uzhxten7*w3lq0+u-pkrpbx1qhqf9phn*+4c@f8f'
+
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False  # en prod
-ALLOWED_HOSTS = ['*'] 
+DEBUG = False # en production sinon true pour le dev
+ALLOWED_HOSTS = ['lesmysteresdelegypteantique.fr','chat.lesmysteresdelegypteantique.fr', 'djangochat-project.onrender.com', 'localhost', '127.0.0.1']
+
+CSRF_TRUSTED_ORIGINS = [
+    'https://djangochat-project.onrender.com',
+    'https://lesmysteresdelegypteantique.fr',
+    'http://127.0.0.1:8000',
+    'http://localhost:8000',
+]
 
 # Application definition
 
 INSTALLED_APPS = [
-
+    # 'daphne',
     'channels',
     'django.contrib.admin',
     'django.contrib.auth',
@@ -53,18 +66,25 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
-STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
 
 ROOT_URLCONF = 'djangochat.urls'
 
 CHANNEL_LAYERS = {
-    "default": {
-        "BACKEND": "channels_redis.core.RedisChannelLayer",
-        "CONFIG": {
-            "hosts": [("redis://default:motdepasse@redis.onrender.com:6379")],
+    'default': {
+        'BACKEND': 'channels_redis.core.RedisChannelLayer',
+        'CONFIG': {
+            "hosts": [("redis://redis:6379")],
         },
     },
 }
+
+# In development, you can use the in-memory channel layer:
+# CHANNEL_LAYERS = {
+#     "default": {
+#         "BACKEND": "channels.layers.InMemoryChannelLayer",
+        
+#     }
+# }
 
 #en production on utilisera le backend Redis pour les channels layers avec pip install channels_redis
 # CHANNEL_LAYERS = {
@@ -96,19 +116,26 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = 'djangochat.wsgi.application'
+# WSGI_APPLICATION = 'djangochat.wsgi.application'
 
 
 # Database
 # https://docs.djangoproject.com/en/5.1/ref/settings/#databases
 
+import os
+
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': os.environ.get('MYSQL_DB', 'chat_db'),
+        'USER': os.environ.get('MYSQL_USER', 'root'),
+        'PASSWORD': os.environ.get('MYSQL_PASSWORD'),
+        'HOST': os.environ.get('MYSQL_HOST', 'localhost'),
+        'PORT': os.environ.get('MYSQL_PORT', '3306'),
     }
 }
-ASGI_APPLICATION = 'djangochat.routing.application'  # your_project is your Django project name
+
+ASGI_APPLICATION = 'djangochat.asgi.application'
 
 # Password validation
 # https://docs.djangoproject.com/en/5.1/ref/settings/#auth-password-validators
@@ -148,14 +175,13 @@ USE_TZ = True
 STATIC_URL = '/static/'
 STATIC_ROOT = BASE_DIR / "staticfiles"
 
+# STATICFILES_DIRS = [BASE_DIR / "static"] activé en developpement
+
 # ⚠️ Garde STATICFILES_DIRS uniquement si tu as bien un dossier "static" à la racine du projet.
 # Si Render ne le trouve pas, commente cette ligne :
 # STATICFILES_DIRS = [BASE_DIR / "static"]
 
 STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
-CSRF_TRUSTED_ORIGINS = [
-    'https://djangochat-project.onrender.com'
-]
 
 
 
