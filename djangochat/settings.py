@@ -70,18 +70,22 @@ MIDDLEWARE = [
 
 ROOT_URLCONF = 'djangochat.urls'
 
-if os.environ.get('REDIS_HOST'):
-    # Production avec Redis
+if os.environ.get("REDIS_HOST"):
     CHANNEL_LAYERS = {
-        'default': {
-            'BACKEND': 'channels_redis.core.RedisChannelLayer',
-            'CONFIG': {
-                "hosts": [(os.environ.get('REDIS_HOST'), 6379)],
+        "default": {
+            "BACKEND": "channels_redis.core.RedisChannelLayer",
+            "CONFIG": {
+                "hosts": [
+                    (
+                        os.environ.get("REDIS_HOST"),
+                        int(os.environ.get("REDIS_PORT", 6379))
+                    )
+                ],
+                "password": os.environ.get("REDIS_PASSWORD"),
             },
         },
     }
 else:
-    # Développement avec InMemory
     CHANNEL_LAYERS = {
         "default": {
             "BACKEND": "channels.layers.InMemoryChannelLayer"
