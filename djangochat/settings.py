@@ -31,7 +31,7 @@ SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
 
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True # en production sinon true pour le dev
+DEBUG = False # False en production sinon, true pour le dev
 ALLOWED_HOSTS = ['lesmysteresdelegypteantique.fr','chat.lesmysteresdelegypteantique.fr', 'djangochat-project.onrender.com', 'localhost', '127.0.0.1']
 
 CSRF_TRUSTED_ORIGINS = [
