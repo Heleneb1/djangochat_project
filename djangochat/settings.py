@@ -70,18 +70,15 @@ MIDDLEWARE = [
 
 ROOT_URLCONF = 'djangochat.urls'
 
-if os.environ.get("REDIS_HOST"):
+# settings.py
+import os
+
+if os.environ.get('REDIS_URL'):
     CHANNEL_LAYERS = {
-        "default": {
-            "BACKEND": "channels_redis.core.RedisChannelLayer",
-            "CONFIG": {
-                "hosts": [
-                    (
-                        os.environ.get("REDIS_HOST"),
-                        int(os.environ.get("REDIS_PORT", 6379))
-                    )
-                ],
-                "password": os.environ.get("REDIS_PASSWORD"),
+        'default': {
+            'BACKEND': 'channels_redis.core.RedisChannelLayer',
+            'CONFIG': {
+                "hosts": [os.environ.get('REDIS_URL')],
             },
         },
     }
@@ -91,6 +88,7 @@ else:
             "BACKEND": "channels.layers.InMemoryChannelLayer"
         }
     }
+
 # In development, you can use the in-memory channel layer:
 # CHANNEL_LAYERS = {
 #     "default": {
